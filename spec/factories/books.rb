@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :book do
-    title { 'MyString' }
-    author { 'MyString' }
-    genre { 'MyString' }
-    publication_year { 'MyString' }
+    title { Faker::Book.title }
+    author { Faker::Book.author }
+    genre { Faker::Book.genre }
+    publication_year { (1880..2022).to_a.sample }
   end
 end
