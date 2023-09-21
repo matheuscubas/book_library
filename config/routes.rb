@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
 
-  resources :books, only: %i[index create]
+  namespace :api do
+    resources :books, only: %i[index create]
+  end
 end
