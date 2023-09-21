@@ -7,7 +7,21 @@ RSpec.configure do |config|
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
   # to ensure that it's configured to serve Swagger from the same folder
   config.swagger_root = Rails.root.join('swagger').to_s
-
+  config.after do |example|
+    content = example.metadata[:response][:content] || {}
+    unless response.body.empty?
+      example_spec = {
+        'application/json' => {
+          examples: {
+            test_example: {
+              value: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        }
+      }
+      example.metadata[:response][:content] = content.deep_merge(example_spec)
+    end
+  end
   # Define one or more Swagger documents and provide global metadata for each one
   # When you run the 'rswag:specs:swaggerize' rake task, the complete Swagger will
   # be generated at the provided relative path under swagger_root
@@ -18,8 +32,21 @@ RSpec.configure do |config|
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
       info: {
-        title: 'API V1',
+        title: 'Api::BookLibrary',
         version: 'v1'
+      },
+      components: {
+        schemas: {
+          book: {
+            type: :object,
+            properties: {
+              title: { type: :string },
+              author: { type: :string },
+              genre: { type: :string },
+              string: { type: :string }
+            }
+          }
+        }
       },
       paths: {},
       servers: [

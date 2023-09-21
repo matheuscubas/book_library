@@ -1,0 +1,33 @@
+---
+openapi: 3.0.1
+info:
+  title: Api::BookLibrary
+  version: v1
+components:
+  schemas:
+    book:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        genre:
+          type: string
+        string:
+          type: string
+paths:
+  "/api/books":
+    get:
+      summary: Successfully return a list of books
+      tags:
+      - Books
+      description: Endpoint used by the team to retrieve books
+      responses:
+        '200':
+          description: Return a list of 5 books
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
