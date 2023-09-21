@@ -14,8 +14,13 @@ components:
           type: string
         genre:
           type: string
-        string:
+        publication_year:
           type: string
+      required:
+      - title
+      - author
+      - genre
+      - publication_year
 paths:
   "/api/books":
     get:
@@ -23,9 +28,27 @@ paths:
       tags:
       - Books
       description: Endpoint used by the team to retrieve books
+      parameters:
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: author
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: genre
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
-          description: Return a list of 5 books
+          description: Return a list of books
+        '422':
+          description: Return an error when passing invalid parameters
 servers:
 - url: http://{defaultHost}
   variables:

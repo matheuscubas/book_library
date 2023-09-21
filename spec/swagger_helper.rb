@@ -43,8 +43,9 @@ RSpec.configure do |config|
               title: { type: :string },
               author: { type: :string },
               genre: { type: :string },
-              string: { type: :string }
-            }
+              publication_year: { type: :string }
+            },
+            required: %w[title author genre publication_year]
           }
         }
       },
