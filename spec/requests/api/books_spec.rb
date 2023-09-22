@@ -107,14 +107,14 @@ RSpec.describe 'Api::Books', type: :request do
         parameter name: :book, in: :body, schema: { '$ref' => '#/components/schemas/book' }
 
         response(200, 'Successfully create a book') do
-          let(:book_params) { attributes_for(:book) }
+          let(:book) { attributes_for(:book) }
 
           run_test! do |request|
             body = JSON.parse(request.body, symbolize_names: true)
             expect(response).to have_http_status(200)
             expect(body.keys).to eq([:book])
             expect(Book.count).to eq(1)
-            expect(Book.last.title).to eq(book_params[:title])
+            expect(Book.last.title).to eq(book[:title])
           end
         end
       end
