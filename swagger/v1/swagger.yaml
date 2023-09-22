@@ -24,7 +24,7 @@ components:
 paths:
   "/api/books":
     get:
-      summary: Successfully return a list of books
+      summary: Return a list of books
       tags:
       - Books
       description: Endpoint used by the team to retrieve books
@@ -47,8 +47,21 @@ paths:
       responses:
         '200':
           description: Return a list of books
-        '422':
-          description: Return an error when passing invalid parameters
+          content:
+            application/json:
+              examples:
+                test_example:
+                  value:
+                    books: []
+    post:
+      summary: Create a new book
+      tags:
+      - Books
+      description: Endpoint used by the team to create a new book
+      parameters: []
+      responses:
+        '200':
+          description: Successfully create a book
 servers:
 - url: http://{defaultHost}
   variables:
