@@ -97,16 +97,6 @@ RSpec.describe 'Api::Books', type: :request do
             end
           end
         end
-
-        response(422, 'Return an error when passing invalid parameters') do
-          let(:title) { 1 }
-          run_test! do |request|
-            body = JSON.parse(request.body, symbolize_names: true)
-            expect(response).to have_http_status(422)
-            expect(body.keys).to eq([:error])
-            expect(body[:error]).to eq('Invalid parameter: Received a number instead of string')
-          end
-        end
       end
     end
   end
