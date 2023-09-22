@@ -103,10 +103,8 @@ RSpec.describe 'Api::Books', type: :request do
         tags 'Books'
         description 'Endpoint used by the team to create a new book'
         produces 'application/json'
-        parameter name: :title, in: :body, type: :string, required: true
-        parameter name: :author, in: :body, type: :string, required: true
-        parameter name: :genre, in: :body, type: :string, required: true
-        parameter name: :publication_year, in: :body, type: :string, required: true
+        consumes 'application/json'
+        parameter name: :book, in: :body, schema: { '$ref' => '#/components/schemas/book' }
 
         response(200, 'Successfully create a book') do
           let(:book_params) { attributes_for(:book) }
