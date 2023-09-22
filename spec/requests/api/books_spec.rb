@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Api::Books', type: :request do
   describe 'Books' do
     path '/api/books' do
-      get 'Successfully return a list of books' do
+      get 'Return a list of books' do
         tags 'Books'
         description 'Endpoint used by the team to retrieve books'
         produces 'application/json'
@@ -95,6 +95,28 @@ RSpec.describe 'Api::Books', type: :request do
               expect(Book.count).not_to eq(1)
               expect(body[:books]).to be_empty
             end
+          end
+        end
+      end
+
+      post 'Create a new book' do
+        tags 'Books'
+        description 'Endpoint used by the team to create a new book'
+        produces 'application/json'
+        parameter name: :title, in: :body, type: :string, required: true
+        parameter name: :author, in: :body, type: :string, required: true
+        parameter name: :genre, in: :body, type: :string, required: true
+        parameter name: :publication_year, in: :body, type: :string, required: true
+
+        response(200, 'Successfully create a book') do
+          let(:book_params) { attributes_for(:book) }
+
+          run_test! do |request|
+            body = JSON.parse(request.body, symbolize_names: true)
+            expect(response).to have_http_status(200)
+            expect(body.keys).to eq([:book])
+            expect(Book.count).to eq(1)
+            expect(Book.last.title).to eq(book_params[:title])
           end
         end
       end
