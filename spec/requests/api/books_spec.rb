@@ -22,7 +22,7 @@ RSpec.describe 'Api::Books', type: :request do
             body = JSON.parse(request.body, symbolize_names: true)
             expect(response).to have_http_status(200)
             expect(body.keys).to eq([:books])
-            expect(body.books.size).to eq(5)
+            expect(body[:books].size).to eq(5)
           end
 
           context 'Return no errors without parameters' do
@@ -30,7 +30,7 @@ RSpec.describe 'Api::Books', type: :request do
               body = JSON.parse(request.body, symbolize_names: true)
               expect(response).to have_http_status(200)
               expect(body.keys).to eq([:books])
-              expect(body.books.size).to eq(5)
+              expect(body[:books].size).to eq(5)
             end
           end
 
@@ -43,7 +43,7 @@ RSpec.describe 'Api::Books', type: :request do
               expect(response).to have_http_status(200)
               expect(body.keys).to eq([:books])
               expect(Book.count).not_to eq(1)
-              expect(body.books.first).to eq(my_book)
+              expect(body[:books].first).to eq(my_book)
             end
           end
 
@@ -56,7 +56,7 @@ RSpec.describe 'Api::Books', type: :request do
               expect(response).to have_http_status(200)
               expect(body.keys).to eq([:books])
               expect(Book.count).not_to eq(1)
-              expect(body.books.first).to eq(my_book)
+              expect(body[:books].first).to eq(my_book)
             end
           end
 
@@ -69,7 +69,7 @@ RSpec.describe 'Api::Books', type: :request do
               expect(response).to have_http_status(200)
               expect(body.keys).to eq([:books])
               expect(Book.count).not_to eq(1)
-              expect(body.books.first).to eq(my_book)
+              expect(body[:books].first).to eq(my_book)
             end
           end
 
@@ -81,7 +81,7 @@ RSpec.describe 'Api::Books', type: :request do
               expect(response).to have_http_status(200)
               expect(body.keys).to eq([:books])
               expect(Book.count).not_to eq(1)
-              expect(body.books).to be_empty
+              expect(body[:books]).to be_empty
             end
           end
         end
@@ -92,7 +92,7 @@ RSpec.describe 'Api::Books', type: :request do
             body = JSON.parse(request.body, symbolize_names: true)
             expect(response).to have_http_status(422)
             expect(body.keys).to eq([:error])
-            expect(body.error.first.message).to eq('Invalid parameter: Received a number instead of string')
+            expect(body[:error]).to eq('Invalid parameter: Received a number instead of string')
           end
         end
       end
