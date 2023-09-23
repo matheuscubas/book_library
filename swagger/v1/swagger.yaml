@@ -62,6 +62,40 @@ paths:
       responses:
         '200':
           description: Successfully create a book
+          content:
+            application/json:
+              examples:
+                test_example:
+                  value:
+                    book:
+                      id: 1
+                      title: Ring of Bright Water
+                      author: Guillermo Nikolaus
+                      genre: Mythopoeia
+                      publication_year: '1916'
+                      created_at: '2023-09-23T16:03:26.961Z'
+                      updated_at: '2023-09-23T16:03:26.961Z'
+        '422':
+          description: Return error with invalid parameters
+          content:
+            application/json:
+              examples:
+                test_example:
+                  value:
+                    error:
+                      title:
+                      - can't be blank
+                      - is too short (minimum is 2 characters)
+                      author:
+                      - can't be blank
+                      - is too short (minimum is 2 characters)
+                      genre:
+                      - can't be blank
+                      - is too short (minimum is 2 characters)
+                      publication_year:
+                      - can't be blank
+                      uniqueness:
+                      - A Darkling Plain already been recomended before.
       requestBody:
         content:
           application/json:
