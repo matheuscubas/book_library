@@ -39,7 +39,7 @@ rails db:setup
 rails server
 ```
 
-TThe API will be accessible using Swagger at <http://localhost:3000/api-docs>.
+The API will be accessible using Swagger at <http://localhost:3000/api-docs>.
 ![swagger interface](image.png)
 
 ## Usage 📖
