@@ -13,7 +13,7 @@ class CreateBookForm
   def persist
     return false unless valid?
 
-    Book.new(title:, genre:, author:, publication_year:).save
+    Book.create(title:, genre:, author:, publication_year:)
   end
 
   private
