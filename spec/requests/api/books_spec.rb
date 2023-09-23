@@ -117,6 +117,74 @@ RSpec.describe 'Api::Books', type: :request do
             expect(Book.last.title).to eq(book[:title])
           end
         end
+
+        response(422, 'Return error with invalid parameters') do
+          let(:book) { attributes_for(:book, title: '') }
+
+          run_test! do |request|
+            body = JSON.parse(request.body, symbolize_names: true)
+            expect(response).to have_http_status(422)
+            expect(body.keys).to eq([:error])
+            expect(body[:error]).to eq({ title: ["can't be blank", 'is too short (minimum is 2 characters)'] })
+          end
+
+          context 'With invalid author' do
+            let(:book) { attributes_for(:book, author: '') }
+
+            run_test! do |request|
+              body = JSON.parse(request.body, symbolize_names: true)
+              expect(response).to have_http_status(422)
+              expect(body.keys).to eq([:error])
+              expect(body[:error]).to eq({ author: ["can't be blank", 'is too short (minimum is 2 characters)'] })
+            end
+          end
+
+          context 'With invalid genre' do
+            let(:book) { attributes_for(:book, genre: '') }
+
+            run_test! do |request|
+              body = JSON.parse(request.body, symbolize_names: true)
+              expect(response).to have_http_status(422)
+              expect(body.keys).to eq([:error])
+              expect(body[:error]).to eq({ genre: ["can't be blank", 'is too short (minimum is 2 characters)'] })
+            end
+          end
+
+          context 'With invalid publication_year' do
+            let(:book) { attributes_for(:book, publication_year: Date.today.year + 1) }
+            run_test! do |request|
+              body = JSON.parse(request.body, symbolize_names: true)
+              expect(response).to have_http_status(422)
+              expect(body.keys).to eq([:error])
+              expect(body[:error]).to eq({ publication_year: ['must be less than or equal to 2023'] })
+            end
+          end
+
+          context 'Without publication_year' do
+            let(:book) { attributes_for(:book, publication_year: '') }
+            run_test! do |request|
+              body = JSON.parse(request.body, symbolize_names: true)
+              expect(response).to have_http_status(422)
+              expect(body.keys).to eq([:error])
+              expect(body[:error]).to eq({ publication_year: ["can't be blank"] })
+            end
+          end
+
+          context 'With an already existing book' do
+            let(:book) { attributes_for(:book) }
+
+            before do
+              Book.create(book)
+            end
+
+            run_test! do |request|
+              body = JSON.parse(request.body, symbolize_names: true)
+              expect(response).to have_http_status(422)
+              expect(body.keys).to eq([:error])
+              expect(body[:error]).to eq({ uniqueness: ["#{book[:title]} already been recomended before."] })
+            end
+          end
+        end
       end
     end
   end
