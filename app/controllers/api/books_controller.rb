@@ -8,12 +8,13 @@ module Api
     end
 
     def create
-      book = Book.new(create_params)
+      book_form = CreateBookForm.new(create_params)
+      book = book_form.persist
 
-      if book.save
+      if book
         render json: { book: }
       else
-        render status: :unprocessable_entity, json: { error: book.errors.messages }
+        render status: :unprocessable_entity, json: { error: book_form.errors.messages }
       end
     end
 
